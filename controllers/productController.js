@@ -5,6 +5,9 @@ class ProductController {
   async create(req, res, next) {
     try {
       const { imageUrl, name, count, width, height, weight } = req.body;
+      if (!imageUrl || !name || !count || !width || !height || !weight) {
+        return next(ApiError.internal("All fields must be filled"));
+      }
       const product = await Product.create({ imageUrl, name, count, width, height, weight });
       return res.json(product);
     } catch(err) {
